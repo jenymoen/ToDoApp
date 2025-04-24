@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/util/dialog_box.dart';
 import 'package:todoapp/util/todo_tile.dart';
-import 'package:todoapp/util/my_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,19 +49,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // delete task
+  void deleteTask(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[200],
       appBar: AppBar(
         backgroundColor: Colors.blue[800],
-        title: Text('To Do List'),
+        title: Center(
+          child: Text(
+            'TO DO',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNewTask,
-        child: Icon(Icons.add),
         backgroundColor: Colors.blue[800],
+        child: Icon(Icons.add),
       ),
       body: ListView.builder(
         itemCount: toDoList.length,
@@ -71,6 +82,7 @@ class _HomePageState extends State<HomePage> {
             taskName: toDoList[index][0],
             taskCompleted: toDoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),
